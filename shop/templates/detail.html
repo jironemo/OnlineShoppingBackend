@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{%block styles%}
+
+<script>
+    async function increaseQuantity(){
+        quan_field = document.getElementById("quantity")
+        quan = Number(quan_field.value) + 1
+        console.log(quan)
+        quan_field.value = quan
+    }
+        
+    async function decreaseQuantity(){       
+        quan_field = document.getElementById("quantity")
+        quan = Number(quan_field.value)
+        new_quan = quan> 0 ? quan-1 : 0
+        console.log(new_quan)
+        quan_field.value = new_quan
+    }
+</script>
+<style>
+    .my-picture img{
+        width: 80% !important;
+        height: auto !important;
+    }
+    .price-tag{
+        font-size:30pt;
+        color:rgb(135, 36, 36);
+        font-weight: bold;
+    }
+    
+    .card{
+        transition: transform 0.3s ease-in-out;
+    }
+    .card:hover{
+        transform: scale(1.05)
+    }
+    .category{
+        background-color: rgb(201, 199, 199);
+        border:1px solid rgb(170, 164, 164);
+        border-radius: 5px;
+        text-align: center;
+        vertical-align: middle;
+        padding:1px;
+        font-size:10pt;
+        color:grey;
+        cursor:pointer;
+    }
+</style>
+{%endblock%}
+{%block content%}
+
+<div class ="container d-flex mt-5">
+    <div class = "col-lg-10 d-flex">
+        <div class = "col-lg-5">
+            {% load pictures %}
+            {% picture product.photo picture_class="card-img-top my-picture p-2"%}
+        </div>
+        <div class = "col-lg-7">
+            <h4>Product Name: {{product.name}}</h4>
+            <p><b>Category:</b> <span onclick="window.location.href='/shop/product/category/{{product.category.id}}';" class = "category">{{product.category.name}}</span> </p>
+            <p><b>Description</b><br>
+            {{product.description}}</p>
+            <p class="price-tag">${{product.price}}</p>
+            <div class="d-flex justify-content-start">
+                <div class = "input-group w-25">
+                    <button class = "input-group-prepend btn btn-outline-secondary" onclick = "decreaseQuantity('{{product.id}}')">-</button>
+                    <input type="text" class="form-control p-0 m-0 text-center" id = "quantity" style="width:20px !important;"></input>
+                    <button class = "input-group-append btn btn-outline-secondary" onclick="increaseQuantity('{{product.id}}')">+</button>
+                </div>
+                <button class = "btn btn-outline-success ms-1" onclick="event.stopPropagation();addToCart('{{product.id}}',document.getElementById('quantity').value)"><i class="bi bi-cart-plus ps-1 pe-1"></i></button>
+                <button class = "btn btn-primary  ms-1"><i class="bi bi-wallet2"></i>Buy Now</button>
+            </div>
+        </div>
+    </div>
+    {% include 'related.html' %}
+</div>
+{%endblock%}

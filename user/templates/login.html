@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{%block content %}
+    <style>
+    .box {
+        display: flex;
+        width:fit-content;
+        flex-direction: column;
+    }
+    .form-group {
+        margin-bottom: 20px;
+        width:400px;
+    }
+    .form-control {
+        height: 40px;
+        font-size: 16px;
+        border: 1px solid #000000;
+        box-shadow: 2px 2px  2px #949393;
+        border-radius: 5px  !important;
+    }
+    .errors > p{
+        color: #a80606;
+        border :1px solid #c70707;
+        border-radius: 10px;
+        list-style:none;
+        font-size:14px;
+    }
+    .underlined-link{
+        text-decoration:underline!important;
+        color:blue;
+    }
+    .btn {
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: rgb(238, 77, 45);;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:hover {
+        background-color: rgb(177, 64, 41);;
+    }
+    </style>
+    <div>
+        <h2 class="text-center">LOGIN</h2>
+    <div class="page d-flex justify-content-center">
+        
+        <img class="m-3"src="/static/graphics/login_graphic.png">
+        <div class="box">
+            <form method="POST" class="d-flex flex-row">
+                {% csrf_token %}
+                <div class="d-flex flex-column">
+                    <div class="form-group">
+                        <label for="id_username">Username</label>
+                        <input type="text" name="username" class="form-control" id="id_username" placeholder="Enter your username">
+                    </div> 
+                    <div class="form-group">
+                        <label for="id_password">Password</label>
+                        <input type="password" name="password" class="form-control" id="id_password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+                    <p>Don't have an account? <a href="/user/register" class="underlined-link">Register Here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{%endblock%}

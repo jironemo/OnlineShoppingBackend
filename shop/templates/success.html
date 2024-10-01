@@ -1,0 +1,51 @@
+{%extends 'base.html'%}
+{%block styles%}
+<style>
+    .tick-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .tick {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      position: relative;
+
+    }
+
+    .tick::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 100px;
+      border-bottom: 5px solid #0e9831;
+      border-right: 5px solid #0e9831;
+      transform: rotate(45deg);
+      animation: tick 1s forwards;
+    }
+
+    @keyframes tick {
+      0% {
+        transform: scale(0) rotate(45deg);
+      }
+      100% {
+        transform: scale(1) rotate(45deg);
+      }
+    }
+  </style>
+
+{%endblock%}
+{%block content%}
+<div class="tick-container d-flex flex-column">
+    <div class="tick"></div>
+    <div>
+        <h2>Order Successfully Placed!</h2>
+    </div>
+  </div>
+{%endblock%}

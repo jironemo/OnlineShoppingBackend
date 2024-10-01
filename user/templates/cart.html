@@ -1,0 +1,53 @@
+{%extends 'base.html'%}
+{%block styles%}
+
+
+<script>
+    const user = '{{request.user.id}}'
+    
+    async function increaseQuantity(id){
+        quan_field = document.getElementById(id)
+        count = Number(quan_field.value) + 1
+        quan_field = count
+        const response = await fetch(`${BASE_URL}/cart/product/adjust?product=${id}&count=${count}&userid=${user}`)
+    } 
+
+    async function decreaseQuantity(id){
+        quan_field = document.getElementById(id)
+        count = Number(quan_field.value)
+        if(count > 0){
+            quan_field.value = count - 1
+            const response = await fetch(`${BASE_URL}/cart/product/adjust?product=${id}&count=${count-1}&userid=${user}`)
+        }
+    }
+
+
+</script>
+<style>
+
+</style>
+{%endblock%}
+{%block content%}
+{% csrf_token %}
+    <div class = "container d-flex flex-column align-items-center">
+        <h4>Items in Cart</h4>
+        <div class="d-flex  fw-bold" style="width:600px;border-bottom:1px solid rgba(182, 181, 181, 0.641)">
+           <p class="col-10">Product</p>
+           <p class="col-2 text-center">Quantity</p>
+        </div>
+        {%for p in cart%}
+            <div class="d-flex justify-content-start align-items-center" style="width:600px;border-bottom:1px solid rgba(182, 181, 181, 0.641)">
+                <div class ="p-1 col-4" ><img style="height:100px;width:auto" src = "http://localhost:8000/{{p.product.photo.url}}"></div>
+                <p class = "p-1 col-6"><a  href= 'http://localhost:8000/product/detail/{{p.product.id}}'>{{p.product.name}}</a></p>
+                <div class = "input-group">
+                    <button class = "input-group-prepend btn btn-outline-secondary" onclick = "decreaseQuantity('{{p.product.id}}')">-</button>
+                    <input type="text" class="form-control m-0 p-0 text-center" id = "{{p.product.id}}" style = "width:20px" value = "{{p.quantity}}"></input>
+                    <button class = "input-group-append btn btn-outline-secondary" onclick="increaseQuantity('{{p.product.id}}')">+</button>
+                </div>
+            
+            </div>
+        {%endfor%}
+        <button class="btn btn-primary p-2 m-2" onclick="window.location.href='/shop/checkout/'">Check Out</button>
+    </div>
+
+{%endblock%}

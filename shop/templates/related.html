@@ -1,0 +1,17 @@
+ <div class = "container col-lg-2">
+    <h4>Related Products</h4>
+    <div class="d-flex flex-column">
+        {%for product in related_products%}
+        <div onclick="window.location.href='/shop/product/detail/{{product.id}}';" class = "card d-flex justify-content-end col-12 m-2">
+            {% load pictures %}
+            {% picture product.photo picture_class="card-img-top my-picture p-2"%}
+            <p class = "card-title m-1"  >{{product.name}}</p>
+            <div class="d-flex justify-content-between pb-1">
+                <p class = "card-text m-1 fw-bold">${{product.price}} Dollars</p>
+                <button class = "btn btn-outline-success p-1 me-1" onclick="event.stopPropagation();addToCart('{{product.id}}',1)"><i class="bi bi-cart-plus ps-1 pe-1"></i></button>
+            </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>

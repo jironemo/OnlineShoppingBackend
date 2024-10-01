@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block styles %}
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Card Styles */
+    .card {
+        transition: transform 0.3s ease-in-out;
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+        border-radius: 10px;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    /* Image Styles */
+    .my-picture img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .cat-picture img {
+        height: 60px !important;
+        width: 60px !important;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    /* Color Scheme */
+    :root {
+        --primary-color: #3498db; /* Blue */
+        --secondary-color: #f1c40f; /* Orange */
+        --background-color: #f9f9f9; /* Light Gray */
+    }
+
+    /* Top Products Section */
+    .top-products {
+        background-color: var(--background-color);
+        padding: 20px;
+    }
+
+    .top-products h4 {
+        color: var(--primary-color);
+    }
+
+    /* Browse By Category Section */
+    .browse-by-category {
+        background-color: var(--background-color);
+        padding: 20px;
+    }
+
+    .browse-by-category h4 {
+        color: var(--secondary-color);
+    }
+
+    /* Card Title and Text */
+    .card-title {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #666;
+    }
+
+    /* Button Styles */
+    .btn-outline-success {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+    .btn-outline-success:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="top-products">
+    <div class="container mt-2">
+        <h4>Top Products</h4>
+        <div class="d-flex flex-row">
+            {% for product in products %}
+            <div onclick="window.location.href='/shop/product/detail/{{product.id}}';" class="card d-flex justify-content-end col-lg-2 col-md-4 col-sm-6 col-xs-12 m-2">
+                {% load pictures %}
+                {% picture product.photo picture_class="card-img-top my-picture p-2"%}
+                <p class="card-title m-1">{{ product.name }}</p>
+                <div class="d-flex justify-content-between pb-1">
+                    <p class="card-text m-1 fw-bold">${{ product.price }}</p>
+                    <button class="btn btn-outline-success p-1 me-1" onclick="event.stopPropagation();addToCart('{{product.id}}',1)"><i class="bi bi-cart-plus ps-1 pe-1"></i></button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="browse-by-category">
+    <div class="container pt-2">
+        <h4>Browse By Category</h4>
+        <div class="d-flex flex-row">
+            {% for category in categories %}
+            <div style="background-color: transparent;" onclick="window.location.href='/shop/product/category/{{category.id}}';" class="card d-flex justify-content-end col-lg-2 col-md-4 col-sm-6 col-xs-12 m-2">
+                <div class="card-img category d-flex align-items-center p-2">
+                    {% picture category.picture picture_class="card-img-top cat-picture"%}
+                    <p class="card-title" style="font-weight:bold;">{{ category.name.upper }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

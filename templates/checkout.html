@@ -1,0 +1,24 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="container">
+    
+    <table class="table">       
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th class="text-center">Quantity</th>
+            <th class = "text-end">Total</th>
+        </tr>
+        {%for product, quantity, total in combined_items %}
+            <tr> 
+                <td>{{product.name}}</td>
+                <td>{{product.price}} MMK</td>
+                <td class = "text-center">{{quantity}}</td>
+                <td class="text-end">{{total}} MMK</td>
+            </tr>        
+        {% endfor %}
+    </table>
+  <span class="text-end">  <p>Total Amount</p> <h3>{{total}} MMK</h3></span>
+  <button onclick="window.location.href = '/shop/payment?cart={{cart.id}}'"> Order </button>
+</div>
+{%endblock%}
